@@ -1,0 +1,21 @@
+- The client arg[1] will take the pid,
+arg[2] will take the string that will be recieved by server
+
+it will take that pid convert it to chars
+divde it into chars, each char has 8 bits you will need to send each bit alone
+the server will take the bit and store it in a char 
+then print it it 
+
+lookfor:
+    getpid()
+    kill()
+    sigaction()
+    signal()
+    sigemptyset()
+    sigaddset()
+
+
+kill(pid, int); it sends signal to the specific pid;
+
+signal(int, (void)(sig handler));
+it handles the int (the signal that was recieved;
