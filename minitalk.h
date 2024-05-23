@@ -6,4 +6,6 @@
 #include <stdlib.h>
 #include <signal.h>
 
-#endif
+void    ft_error(char *str);
+
+#endif 
