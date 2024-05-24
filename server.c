@@ -1,3 +1,4 @@
+#define _POSIX_C_SOURCE 199309L
 #include "minitalk.h"
 
 void    ft_putchar(char c)
@@ -28,12 +29,17 @@ void    sig_handler(int sig, siginfo_t *info, void *ucontext)
 {
     static char c;
     static int i;
-    
-    if(sig == SIGINT)
+    static int pid;
+
+    // (void)info;
+    if(pid != info->si_pid)
     {
-        printf("PID-->%d",info->si_pid);
-        prinft("UID-->%d",info->si->uid);
+        pid = info->si_pid;
+        c = 0;
+        i = 0;
     }
+    
+    (void)ucontext;
     if (sig == SIGUSR1)
         c = (c << 1) | 1;
     else
@@ -56,7 +62,8 @@ int main()
     sigemptyset(&sa.sa_mask);
     sa.sa_flags = SA_SIGINFO;
 
-    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGUSR1, &sa, NULL);
+    sigaction(SIGUSR2, &sa, NULL);
 
     mypid =  getpid();
     ft_putnbr(mypid);

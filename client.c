@@ -1,5 +1,6 @@
 #include "minitalk.h"
 
+
 int     ft_atoi(char *str)
 {
     int i;
@@ -69,7 +70,7 @@ void    send_signal(pid_t pid, char *str, size_t len)
             else
                 if(kill(pid, SIGUSR2) == -1)
                     ft_error("kill function failed !");
-            usleep(400);
+            usleep(900);
             shift--;
         }
         i++;
@@ -86,5 +87,6 @@ int main(int ac, char **av)
     if (pid == -1 || pid == 0)
         ft_error("PID is not valid !");
     send_signal(pid, av[2], ft_strlen(av[2]));
+    
     
 }
