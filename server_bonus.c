@@ -1,5 +1,4 @@
-#include "minitalk.h"
-
+#include "minitalk_bonus.h"
 
 void    ft_putchar(char c)
 {
@@ -25,16 +24,11 @@ void    ft_putnbr(int n)
 
 }
 
-void    sig_handler(int sig,)
+void    sig_handler(int sig)
 {
     static char c;
     static int i;
     
-    if(sig == SIGINT)
-    {
-        c = 0;
-        
-    }
     if (sig == SIGUSR1)
         c = (c << 1) | 1;
     else
@@ -50,14 +44,13 @@ void    sig_handler(int sig,)
 
 int main()
 {
-    struct sigaction action;
     pid_t mypid;
-
-
 
     mypid =  getpid();
     ft_putnbr(mypid);
-    write(1, " = PID\n",7);
+    write(1," = PID\n",7);
+    signal(SIGUSR1, sig_handler);
+    signal(SIGUSR2, sig_handler);
 
     while(1)
     {

@@ -1,4 +1,4 @@
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 int     ft_atoi(char *str)
 {
@@ -50,11 +50,13 @@ void    ft_error(char *str)
     exit(1);
 }
 
-void    send_signal(pid_t pid, char *str, size_t len)
+void    send_signal(pid_t pid, char *str)
 {
+    size_t len;
     size_t i;
     int shift;
     
+    len = ft_strlen(str);
     i = 0;
     while(i < len)
     {
@@ -85,6 +87,5 @@ int main(int ac, char **av)
     pid = ft_atoi(av[1]);
     if (pid == -1 || pid == 0)
         ft_error("PID is not valid !");
-    send_signal(pid, av[2], ft_strlen(av[2]));
-    
+    send_signal(pid, av[2]);
 }
