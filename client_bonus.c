@@ -26,15 +26,6 @@ int     ft_atoi(char *str)
     return(number * sign);
 }
 
-size_t    ft_strlen(char *str)
-{
-    size_t i;
-
-    i = 0;
-    while(str[i])
-        i++;
-    return (i);
-}
 
 void    ft_error(char *str)
 {
@@ -50,20 +41,22 @@ void    ft_error(char *str)
     exit(1);
 }
 
+void    sig_receiver(int sig)
+{
+    printf("aha");
+    if (sig == SIGUSR1)
+        write(1,"received !",10);
+}
 void    send_signal(pid_t pid, char *str)
 {
-    size_t len;
-    size_t i;
     int shift;
-    
-    len = ft_strlen(str);
-    i = 0;
-    while(i < len)
+        
+    while(*str)
     {
         shift = 7;
         while(shift >= 0)
         {
-            if((str[i] >> shift) & 1)
+            if((*str >> shift) & 1)
             {
                 if(kill(pid, SIGUSR1) == -1)
                     ft_error("kill function failed !");
@@ -71,11 +64,18 @@ void    send_signal(pid_t pid, char *str)
             else
                 if(kill(pid, SIGUSR2) == -1)
                     ft_error("kill function failed !");
-            usleep(400);
+            usleep(500);
             shift--;
         }
-        i++;
+        str++;
     }
+    shift = 8;
+    while(shift--)
+    {
+        if(kill(pid, SIGUSR2) == -1)
+           ft_error("kill function failed !");
+        printf("%d",shift);
+    }   
 }
 
 int main(int ac, char **av)
@@ -88,4 +88,5 @@ int main(int ac, char **av)
     if (pid == -1 || pid == 0)
         ft_error("PID is not valid !");
     send_signal(pid, av[2]);
+    signal(SIGUSR1, sig_receiver);
 }
