@@ -1,7 +1,7 @@
 NAME = client server
 B_NAME = client_bonus server_bonus
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 SRCS = server.c client.c 
 B_SRCS = server_bonus.c client_bonus.c
 
